@@ -9,14 +9,14 @@ function App() {
 
   const columns = [
     { title: "ID", field: "id"},
-    { title: "bomId", field: "bomId"},
-    { title: "model", field: "model"},
-    { title: "uuid", field: "uuid"},
-    { title: "created_at", field: "created_at"},
-    { title: "updated_at", field: "updated_at"},
-    { title: "quantity", field: "quantity"},
-    { title: "item_unit_cost", field: "item_unit_cost"},
-    { title: "specific_part", field: "specific_part"}
+    { title: "BOM ID", field: "bomId"},
+    { title: "Model", field: "model"},
+    { title: "UUID", field: "uuid"},
+    { title: "Created At", field: "created_at"},
+    { title: "Updated At", field: "updated_at"},
+    { title: "Quantity", field: "quantity"},
+    { title: "Item Unit Cost", field: "item_unit_cost"},
+    { title: "Specific Part", field: "specific_part"}
   ]
 
   function fetchBOM(e) {
@@ -29,7 +29,6 @@ function App() {
   var formStyle = {
       padding: 10,
       margin: 10,
-      backgroundColor: "#e6e6e6",
       color: "#333",
       display: "inline-block",
       fontFamily: "monospace",
