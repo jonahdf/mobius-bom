@@ -29,7 +29,7 @@ function App() {
   var formStyle = {
       padding: 10,
       margin: 10,
-      backgroundColor: "#fffccc",
+      backgroundColor: "#e6e6e6",
       color: "#333",
       display: "inline-block",
       fontFamily: "monospace",
@@ -65,6 +65,18 @@ function App() {
         title = "Bill of materials"
         data = {data}
         columns = {columns}
+        options = {{
+          headerStyle: {
+            backgroundColor: "#fafaf0",
+            fontWeight: "bold"
+          },
+
+          rowStyle: {
+            backgroundColor: '#f5f5f5',
+            fontFamily: "monospace",
+            fontSize: 20
+          }
+        }}
       />
 
     </div>
