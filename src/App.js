@@ -91,7 +91,7 @@ function App() {
       </form>
       </div>
 
-      <MaterialTable style={formStyle} //Style inside box
+      <MaterialTable
         title = "Bill of Materials:"
         data = {data}
         columns = {columns}
