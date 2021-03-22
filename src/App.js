@@ -12,8 +12,8 @@ function App() {
     { title: "BOM ID", field: "bomId", editable: "never"},
     { title: "Model", field: "model"},
     { title: "UUID", field: "uuid"},
-    { title: "Created At", field: "created_at", type: 'numeric'},
-    { title: "Updated At", field: "updated_at", type: 'numeric'},
+    { title: "Created At", field: "created_at", type: 'numeric', editable: "never"},
+    { title: "Updated At", field: "updated_at", type: 'numeric', editable: "never"},
     { title: "Quantity", field: "quantity", type: 'numeric'},
     { title: "Item Unit Cost", field: "item_unit_cost", type: 'numeric'},
     { title: "Specific Part", field: "specific_part", type: 'numeric'}
@@ -98,6 +98,7 @@ function App() {
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
               dataUpdate[index] = newData;
+              dataUpdate[index]["updated_at"] = Math.floor(new Date().getTime()/1000);
               setData(dataUpdate);
               sendBOM(newData, index);
               resolve();
