@@ -4,9 +4,11 @@ import { useState } from 'react';
 
 function App() {
 
+  //State hooks for data in table and currently selected BOM ID
   const [data, setData] = useState([]);
   const [selectedBom, setBom] = useState("");
 
+  //Table object for MaterialTable
   const columns = [
     { title: "ID", field: "id", editable: "never"},
     { title: "BOM ID", field: "bomId", editable: "never"},
@@ -19,18 +21,22 @@ function App() {
     { title: "Specific Part", field: "specific_part", type: 'numeric'}
   ]
 
+  //idSubmit: Handler for BOM ID Submit button
   function idSubmit(e) {
     e.preventDefault();
     fetchBOM();
   }
 
+  //fetchBOM: Get request for BOM inputted to form
   function fetchBOM() {
     fetch("https://60582c6dc3f49200173ad737.mockapi.io/api/v1/bom/" + selectedBom + "/bomitem")
     .then(resp=>resp.json())
     .then(resp=>setData(resp))
   }
 
-  function sendBOM(newData, index) {
+  //SendBOM: Sends PUT request
+  //NewData: Updated row
+  function sendBOM(newData) {
     console.log("newdata:", newData)
 
     fetch("https://60582c6dc3f49200173ad737.mockapi.io/api/v1/bom/" + selectedBom + "/bomitem/" + newData["id"], {
@@ -40,9 +46,7 @@ function App() {
       },
       body: JSON.stringify(newData) 
     })
-      .then(resp=>resp.json())
-      // .then(resp=>updateRow(resp, index))
-      // .then(resp=>setData(resp))
+      .then(resp=>resp.json()) //Logs response
       .then(resp => {
         console.log('Success:', resp);
       })
@@ -52,6 +56,7 @@ function App() {
 
   }
 
+  //Style for input form and BOM table
   var formStyle = {
       padding: 10,
       margin: 10,
@@ -73,7 +78,7 @@ function App() {
       <div style={divStyle}>
       <form onSubmit = {idSubmit}>
         <label>
-          Enter Bom ID:
+          Enter BOM ID:
           <input style={formStyle}
             type = "text" 
             name = "bom ID" 
@@ -86,13 +91,13 @@ function App() {
       </form>
       </div>
 
-      <MaterialTable
-        title = "Bill of materials"
+      <MaterialTable style={formStyle} //Style inside box
+        title = "Bill of Materials:"
         data = {data}
         columns = {columns}
 
         editable={{
-
+          //When row updated, updates locally and sends PUT request
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               const dataUpdate = [...data];
@@ -100,14 +105,13 @@ function App() {
               dataUpdate[index] = newData;
               dataUpdate[index]["updated_at"] = Math.floor(new Date().getTime()/1000);
               setData(dataUpdate);
-              sendBOM(newData, index);
+              sendBOM(newData);
               resolve();
             }),      
-
+          
+          //When row deleted, updates locally. Does not send DELETE request
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
-              // Does not delete from server
-              console.log("before: ", data);
               const dataUpdate = [...data];
               const index = oldData.tableData.id;
               dataUpdate.splice(index, 1);
@@ -119,7 +123,8 @@ function App() {
           filtering: true,
           headerStyle: {
             backgroundColor: "#fafaf0",
-            fontWeight: "bold"
+            fontWeight: "bold",
+            padding: 10
           },
 
           rowStyle: {
